@@ -1,5 +1,7 @@
 # lanerun
 
+[![ci](https://github.com/tyoonkk/lanerun/actions/workflows/ci.yml/badge.svg)](https://github.com/tyoonkk/lanerun/actions/workflows/ci.yml)
+
 GPU 한 장짜리 PC에서 실험 수백 건을 레인별 큐로 사람 없이 돌리는 CLI입니다.
 의존성은 PyYAML 하나, Python 3.11 이상, Windows와 Linux에서 같은 코드로 돕니다.
 
