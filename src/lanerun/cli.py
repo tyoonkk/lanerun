@@ -88,9 +88,6 @@ def cmd_run(a: argparse.Namespace) -> int:
     except LockHeld as e:
         print(str(e), file=sys.stderr)
         return 3
-    except QueueError as e:
-        print(str(e), file=sys.stderr)
-        return 4
     return 0
 
 
@@ -199,7 +196,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """명령을 실행하고 종료 코드를 돌려준다. 코드의 뜻은 docs/cli.md 의 '종료 코드' 표에 있다."""
     a = build_parser().parse_args(argv)
     func = a.func
-    result: int = func(a)
+    try:
+        result: int = func(a)
+    except QueueError as e:  # 어느 명령이든 깨진 큐 파일은 traceback 대신 이유를 말하고 4로 끝낸다
+        print(str(e), file=sys.stderr)
+        return 4
     return result

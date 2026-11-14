@@ -69,6 +69,15 @@ pipx install git+https://github.com/tyoonkk/lanerun
 | `lanerun validate` | 큐 파일의 형식 오류(중복 id, 빈 cmd, 깨진 YAML)를 찾는다 |
 
 공통 옵션: `--root`(기본 현재 폴더), `--queue-dir`, `--logs-dir`, `--state-file`, `--lanes gpu,cpu`.
+옵션 전체, 종료 코드(0~4), 자주 겪는 상황의 처리 방법은 [docs/cli.md](docs/cli.md)에 있습니다.
+
+## 문서
+
+| 문서 | 내용 |
+|---|---|
+| [docs/cli.md](docs/cli.md) | 명령 레퍼런스: 명령별 옵션, 실행 순서, 종료 코드, 자주 겪는 상황 |
+| [docs/queue-format.md](docs/queue-format.md) | 큐 파일 형식: 사람이 적는 필드와 러너가 채우는 필드 |
+| [docs/design.md](docs/design.md) | 설계 결정 10개와 그렇게 정한 이유 |
 
 ## 큐 파일
 

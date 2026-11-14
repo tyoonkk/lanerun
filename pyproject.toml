@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lanerun"
-version = "0.1.0"
+version = "0.1.1"
 description = "GPU 한 장짜리 PC에서 실험 수백 건을 레인별 큐로 사람 없이 돌리는 CLI"
 readme = "README.md"
 requires-python = ">=3.11"

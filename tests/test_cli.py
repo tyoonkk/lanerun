@@ -47,6 +47,23 @@ def test_validate_reports_broken_file(tmp_path: pathlib.Path, capsys: pytest.Cap
     assert "파싱되지 않습니다" in capsys.readouterr().out
 
 
+def test_broken_queue_exits_4_and_keeps_the_file(
+    tmp_path: pathlib.Path, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("lanerun.queue.time.sleep", lambda _s: None)
+    queue = tmp_path / "experiments" / "queue_gpu.yaml"
+    queue.parent.mkdir()
+    queue.write_text("- id: [x\n", encoding="utf-8")
+
+    assert run(tmp_path, "add", "--lane", "gpu", "--id", "a", "--cmd", "python -c pass") == 4
+    assert run(tmp_path, "reset", "--lane", "gpu", "--failed") == 4
+    assert run(tmp_path, "status") == 4
+    assert run(tmp_path, "run", "--lane", "gpu", "--once", "--no-gpu-guard") == 4
+    assert "덮어쓰지 않고 멈춥니다" in capsys.readouterr().err
+    assert queue.read_text(encoding="utf-8") == "- id: [x\n"
+    assert not (tmp_path / "logs" / "runner_gpu.lock").exists()  # run 이 멈출 때 lock 도 놓는다
+
+
 def test_custom_lanes_and_dirs(tmp_path: pathlib.Path) -> None:
     assert run(tmp_path, "--lanes", "a100,cpu", "--queue-dir", "q", "init") == 0
     assert (tmp_path / "q" / "queue_a100.yaml").exists()
